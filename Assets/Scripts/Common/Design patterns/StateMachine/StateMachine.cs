@@ -3,8 +3,6 @@ using UnityEngine;
 public class StateMachine
 {
     public IState CurrentState { get; private set; }
-
-    // Event for UI or VFX to listen to when states change
     public System.Action<IState> OnStateChanged;
 
     public void Initialize(IState startingState)
