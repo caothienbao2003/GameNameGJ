@@ -1,15 +1,26 @@
 using UnityEngine;
 
-public class MoveState : MonoBehaviour
+public class MoveState : IState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private readonly IMoveToDirection moveToDirection;
+    public MoveState(IMoveToDirection moveToDirection)
     {
-        
+        this.moveToDirection = moveToDirection;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Enter()
+    {
+    }
+
+    public void Exit()
+    {
+    }
+
+    public void FixedUpdate()
+    {
+    }
+
+    public void Update()
     {
         
     }

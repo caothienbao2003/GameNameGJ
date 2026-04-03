@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public interface IMoveToDirection
 {
-    void SetMoveDirection(Vector3 moveDirection);
+    void MoveToDirection(Vector3 moveDirection);
+    void Stop();
 }

@@ -1,17 +1,14 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class PlayerStateMachineController : MonoBehaviour
+public class PlayerStateMachineController : SerializedMonoBehaviour
 {
     [SerializeField] private StateMachineComponent _stateMachineComponent;
-    private StateMachineComponent stateMachineComponent
-    {
-        get
-        {
-            if (_stateMachineComponent == null)
-                _stateMachineComponent = GetComponent<StateMachineComponent>();
-            return _stateMachineComponent;
-        }
-    }
+    private StateMachineComponent stateMachineComponent => _stateMachineComponent ??= GetComponent<StateMachineComponent>();
+    [SerializeField] private IInputEvents _inputEvents;
+    private IInputEvents inputEvents => _inputEvents ??= GetComponent<IInputEvents>();
+    [SerializeField] private IMoveToDirection _moveToDirection;
+    private IMoveToDirection moveToDirection => _moveToDirection ??= GetComponent<IMoveToDirection>();
 
     private void Awake()
     {
@@ -25,7 +22,12 @@ public class PlayerStateMachineController : MonoBehaviour
 
     private void InitializeStateMachine()
     {
-        // stateMachineComponent.AddState(new IdleState(this));
+        var idleState = new IdleState(inputEvents);
+        var moveState = new MoveState(moveToDirection);
+
+        stateMachineComponent.AddState(idleState);
+        stateMachineComponent.AddState(moveState);
+
         // stateMachineComponent.AddState(new MoveState(this));
         // stateMachineComponent.AddState(new JumpState(this));
         // stateMachineComponent.AddState(new PlayerAttackState(this));

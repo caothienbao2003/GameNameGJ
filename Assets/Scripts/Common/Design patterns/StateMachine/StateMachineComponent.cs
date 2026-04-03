@@ -2,49 +2,42 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum StateLayer { Movement, Action }
-
-public class StateMachineComponent : MonoBehaviour
+public class StateMachineComponent : MonoBehaviour, IStateMachineComponent
 {
-    private Dictionary<StateLayer, StateMachine> _layerMachines = new();
-    private Dictionary<Type, IState> _stateLibrary = new();
+    private StateMachine _stateMachine = new();
+    private readonly Dictionary<Type, IState> _stateInstances = new();
 
-    public void AddState(IState state)
+    public void AddState(IState state) => _stateInstances[state.GetType()] = state;
+
+    public void AddTransition<TTransitionFrom, TTo>(Func<bool> condition) 
+        where TTransitionFrom : IState where TTo : IState
     {
-        _stateLibrary[state.GetType()] = state;
+        _stateMachine.AddTransition(typeof(TTransitionFrom), typeof(TTo), condition);
     }
 
-    public void InitializeLayer(StateLayer layer, IState startingState)
+    public void Initialize(IState startingState)
     {
-        var machine = new StateMachine();
-        machine.Initialize(startingState);
-        _layerMachines[layer] = machine;
-    }
-
-    public void TransitionLayer<T>(StateLayer layer) where T : IState
-    {
-        if (_stateLibrary.TryGetValue(typeof(T), out var state))
-        {
-            if (_layerMachines.TryGetValue(layer, out var machine))
-            {
-                machine.TransitionTo(state);
-            }
-            else
-            {
-                Debug.LogWarning($"Layer {layer} not initialized!");
-            }
-        }
+        if (!_stateInstances.ContainsKey(startingState.GetType()))
+            AddState(startingState);
+            
+        _stateMachine.Initialize(startingState);
     }
 
     private void Update()
     {
-        foreach (var machine in _layerMachines.Values)
-            machine.Update();
+        // Check for transitions and update logic
+        _stateMachine.Tick();
+
+        // Check if the machine requested a state change
+        // (Handled internally via the Tick's transition check)
     }
 
-    private void FixedUpdate()
+    // This helper allows the StateMachine to request the instance from the Component
+    public void TransitionTo<T>() where T : IState
     {
-        foreach (var machine in _layerMachines.Values)
-            machine.FixedUpdate();
+        if (_stateInstances.TryGetValue(typeof(T), out var state))
+            _stateMachine.SetStateDirectly(state);
     }
+
+    private void FixedUpdate() => _stateMachine.FixedTick();
 }

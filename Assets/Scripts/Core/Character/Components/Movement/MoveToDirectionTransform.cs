@@ -7,16 +7,34 @@ public class MoveToDirectionTransform : MonoBehaviour, IMoveToDirection
 
     private Vector3 moveDirection;
 
-    public void SetMoveDirection(Vector3 moveDirection)
+    // public bool IsMoving()
+    // {
+    //     return moveDirection != Vector3.zero;
+    // }
+
+    // public void SetMoveDirection(Vector3 moveDirection)
+    // {
+    //     Debug.Log($"[MovableTransform] SetMoveDirection] {moveDirection}");
+    //     this.moveDirection = moveDirection;
+    //     moveDirection.Normalize();
+    // }
+
+    // private void Update()
+    // {
+    //     if (!IsMoving()) return;
+    //     transform.position += moveDirection * (moveSpeed * Time.deltaTime);
+    // }
+
+    public void MoveToDirection(Vector3 direction)
     {
-        Debug.Log($"[MovableTransform] SetMoveDirection] {moveDirection}");
-        this.moveDirection = moveDirection;
-        moveDirection.Normalize();
+        if (direction == Vector3.zero) return;
+        
+        transform.position += direction.normalized * (moveSpeed * Time.deltaTime);
+        Debug.Log($"Moving: {direction}");
     }
 
-    private void Update()
+    public void Stop()
     {
-        if (moveDirection == Vector3.zero) return;
-        transform.position += moveDirection * (moveSpeed * Time.deltaTime);
+        
     }
 }

@@ -2,52 +2,62 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions
+public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions, IInputEvents
 {
-    public Action<Vector2> mouseActionEvent { get; set; }
-    public Action mousePanEvent { get; set; }
-    public Vector2 mousePosition { get; set; }
-    public Action<Vector2> cameraMovementEvent { get; set; }
-    
+    public event Action<float> OnMoveEvent;
+    private float _horizontalMove;
+    public float GetHorizontalMoveInput() => _horizontalMove;
+    public event Action OnJumpEvent;
+    public event Action OnAttackEvent;
+    public event Action OnDashEvent;
+
     private PlayerInputActions playerInputActions;
+
+    private void Awake()
+    {
+        playerInputActions = new PlayerInputActions();
+        playerInputActions.Gameplay.SetCallbacks(this);
+    }
 
     private void OnEnable()
     {
-        if (playerInputActions == null)
-        {
-            playerInputActions = new PlayerInputActions();
-            playerInputActions.Gameplay.SetCallbacks(this);
-        }
-
         playerInputActions.Gameplay.Enable();
     }
+
     private void OnDisable()
     {
-        playerInputActions?.Gameplay.Disable();
+        playerInputActions.Gameplay.Disable();
     }
 
-    public void OnMouseAction(InputAction.CallbackContext context)
+    public void OnHorizontalMove(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            mouseActionEvent?.Invoke(mousePosition);
+            _horizontalMove = context.ReadValue<float>();
+            OnMoveEvent?.Invoke(_horizontalMove);
+        }
+        else if (context.canceled)
+        {
+            _horizontalMove = 0f;
+            OnMoveEvent?.Invoke(_horizontalMove);
         }
     }
 
-    public void OnMousePan(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        
+        if (context.performed)
+            OnJumpEvent?.Invoke();
     }
-    public void OnMouseZoom(InputAction.CallbackContext context)
+
+    public void OnAttack(InputAction.CallbackContext context)
     {
-        
+        if (context.performed)
+            OnAttackEvent?.Invoke();
     }
-    public void OnMousePosition(InputAction.CallbackContext context)
+
+    public void OnDash(InputAction.CallbackContext context)
     {
-        mousePosition = context.ReadValue<Vector2>();
-    }
-    public void OnCameraMovement(InputAction.CallbackContext context)
-    {
-        
+        if (context.performed)
+            OnDashEvent?.Invoke();
     }
 }

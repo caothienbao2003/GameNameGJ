@@ -14,12 +14,12 @@ public class PlayerMovementByMouse : MonoBehaviour
 
     private void OnEnable()
     {
-        inputReader.mouseActionEvent += HandleMouseAction;
+        // inputReader.mouseActionEvent += HandleMouseAction;
     }
 
     private void OnDisable()
     {
-        inputReader.mouseActionEvent -= HandleMouseAction;
+        // inputReader.mouseActionEvent -= HandleMouseAction;
     }
 
     private void HandleMouseAction(Vector2 mousePosition)
