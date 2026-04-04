@@ -3,33 +3,37 @@ using UnityEngine;
 public class JumpAction : IAction
 {
     public int Priority { get; set; }
-    private readonly IJumpComponent _jumpMotor;
+    private readonly IJumpComponent _jumpComponent;
     private readonly IPlayerInput _input;
     private readonly Rigidbody2D _rb;
+    private readonly IAnimationService _animService;
     private bool _isJumping;
 
-    public JumpAction(IJumpComponent jumpComponent, IPlayerInput input, Rigidbody2D rb, int priority)
+    public JumpAction(IJumpComponent jumpComponent, IPlayerInput input, Rigidbody2D rb, IAnimationService animService, int priority)
     {
-        _jumpMotor = jumpComponent;
+        _jumpComponent = jumpComponent;
         _input = input;
         _rb = rb;
+        _animService = animService;
         Priority = priority;
     }
 
-    public bool CanStart() => _jumpMotor.IsCoyoteTimeActive();
+    public bool CanStart() => _jumpComponent.IsCoyoteTimeActive();
 
     public void Start()
     {
         _isJumping = true;
-        _jumpMotor.ApplyJumpImpulse();
-        _jumpMotor.ConsumeCoyoteTime();
+        _jumpComponent.ApplyJumpImpulse();
+        _jumpComponent.ConsumeCoyoteTime();
+
+        _animService.Trigger(AnimHash.JumpTrigger);
     }
 
     public void FixedUpdate()
     {
         if (_isJumping && !_input.IsJumpPressed() && _rb.linearVelocity.y > 0)
         {
-            _jumpMotor.CutJumpVelocity();
+            _jumpComponent.CutJumpVelocity();
             _isJumping = false;
         }
     }
@@ -39,33 +43,36 @@ public class JumpAction : IAction
         float yVel = _rb.linearVelocity.y;
         float fallInput = _input.GetFallInput();
 
-        if (_jumpMotor.IsGrounded())
+        if (_jumpComponent.IsGrounded())
         {
-            _jumpMotor.SetGravityScale(_jumpMotor.DefaultGravity);
+            if (!_isJumping && yVel < -0.1f)
+                _jumpComponent.SetGravityScale(_jumpComponent.DefaultGravity);
             if (yVel <= 0.1f) _isJumping = false;
         }
         else
         {
             // 1. Down Press (Celeste Fast Fall)
             if (fallInput < -0.5f)
-                _jumpMotor.SetGravityScale(_jumpMotor.DefaultGravity * _jumpMotor.DownPressMult);
+                _jumpComponent.SetGravityScale(_jumpComponent.DefaultGravity * _jumpComponent.DownPressMult);
             // 2. Apex (Hollow Knight Float)
-            else if (Mathf.Abs(yVel) < _jumpMotor.JumpHangThreshold)
-                _jumpMotor.SetGravityScale(_jumpMotor.DefaultGravity * _jumpMotor.JumpHangGravityMult);
+            else if (Mathf.Abs(yVel) < _jumpComponent.JumpHangThreshold)
+                _jumpComponent.SetGravityScale(_jumpComponent.DefaultGravity * _jumpComponent.JumpHangGravityMult);
             // 3. Falling
             else if (yVel < 0)
-                _jumpMotor.SetGravityScale(_jumpMotor.DefaultGravity * _jumpMotor.FallGravityMult);
+            {
+                _jumpComponent.SetGravityScale(_jumpComponent.DefaultGravity * _jumpComponent.FallGravityMult);
+            }
             // 4. Rising
             else
-                _jumpMotor.SetGravityScale(_jumpMotor.DefaultGravity);
+                _jumpComponent.SetGravityScale(_jumpComponent.DefaultGravity);
         }
     }
 
-    public bool IsFinished() => !_isJumping && _jumpMotor.IsGrounded() && _rb.linearVelocity.y <= 0.1f;
+    public bool IsFinished() => !_isJumping && _jumpComponent.IsGrounded() && _rb.linearVelocity.y <= 0.1f;
 
     public void Stop()
     {
         _isJumping = false;
-        _jumpMotor.SetGravityScale(_jumpMotor.DefaultGravity);
+        _jumpComponent.SetGravityScale(_jumpComponent.DefaultGravity);
     }
 }

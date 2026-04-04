@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MoveToToDirectionPhysicsComponent : MonoBehaviour, IMoveToDirection
+public class MoveHorizontalComponent : MonoBehaviour, IMoveToDirection
 {
     [Header("Celeste-Style Settings")]
     [SerializeField] private float maxSpeed = 12f;

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActionCoordinator : MonoBehaviour
+public class ActionCoordinatorComponent : MonoBehaviour
 {
     private readonly List<IAction> _activeActions = new();
 

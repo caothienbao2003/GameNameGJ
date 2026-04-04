@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class PlayerActionController : MonoBehaviour
 {
-    [SerializeField] private ActionCoordinator actionCoordinator;
+    [SerializeField] private ActionCoordinatorComponent actionCoordinator;
     [SerializeField] private InputReader inputReader;
-    [SerializeField] private MoveToToDirectionPhysicsComponent moveComponent;
+    [SerializeField] private MoveHorizontalComponent moveComponent;
     [SerializeField] private JumpPhysicsComponent jumpComponent;
     [SerializeField] private Rigidbody2D rb;
-
+    [SerializeField] private IAnimationService animService;
+    [SerializeField] private PlayerVisuals playerVisuals;
     private MoveAction moveAction;
     private JumpAction jumpAction;
 
@@ -16,20 +17,37 @@ public class PlayerActionController : MonoBehaviour
 
     private void Awake()
     {
-        actionCoordinator = actionCoordinator ?? GetComponent<ActionCoordinator>();
-        inputReader = inputReader ?? GetComponent<InputReader>();
-        moveComponent = moveComponent ?? GetComponent<MoveToToDirectionPhysicsComponent>();
-        jumpComponent = jumpComponent ?? GetComponent<JumpPhysicsComponent>();
-        rb = rb ?? GetComponent<Rigidbody2D>();
+        RegisterComponents();
 
-        moveAction = new MoveAction(moveComponent, inputReader, rb, 10);
-        jumpAction = new JumpAction(jumpComponent, inputReader, rb, 10);
+        SetUpActions();
+    }
+
+    private void RegisterComponents()
+    {
+        actionCoordinator ??= GetComponent<ActionCoordinatorComponent>();
+        inputReader ??= GetComponent<InputReader>();
+        moveComponent ??= GetComponent<MoveHorizontalComponent>();
+        jumpComponent ??= GetComponent<JumpPhysicsComponent>();
+        rb ??= GetComponent<Rigidbody2D>();
+        animService ??= GetComponent<AnimatorComponent>();
+        playerVisuals ??= GetComponentInChildren<PlayerVisuals>();
+    }
+
+    private void SetUpActions()
+    {
+        moveAction = new MoveAction(moveComponent, inputReader, rb, animService, 10);
+        jumpAction = new JumpAction(jumpComponent, inputReader, rb, animService, 10);
     }
 
     private void OnEnable() => inputReader.OnJumpEvent += () => _jumpBufferCounter = jumpBufferTime;
 
     void Update()
     {
+        animService.SetBool(AnimHash.IsGrounded, jumpComponent.IsGrounded());
+        animService.SetFloat(AnimHash.YVelocity, rb.linearVelocityY);
+
+        
+
         // Handle Movement
         if (Mathf.Abs(inputReader.GetHorizontalMoveInput()) > 0.01f)
             actionCoordinator.TryStartAction(moveAction);
