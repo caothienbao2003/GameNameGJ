@@ -5,17 +5,18 @@ public class ActionCoordinator : MonoBehaviour
 {
     private readonly List<IAction> _activeActions = new();
 
-    public void TryStartAction(IAction newAction)
+    public bool TryStartAction(IAction newAction)
     {
-        if (!newAction.CanStart()) return;
+        if (newAction == null) return false;
+        if (!newAction.CanStart()) return false;
+        if (_activeActions.Contains(newAction)) return false;
 
         // 1. Check if any currently running action has HIGHER priority
         foreach (var active in _activeActions)
         {
-            if (active.Priority > newAction.Priority) 
+            if (active.Priority > newAction.Priority)
             {
-                Debug.Log($"Action {newAction.GetType().Name} blocked by {active.GetType().Name}");
-                return; 
+                return false;
             }
         }
 
@@ -32,23 +33,36 @@ public class ActionCoordinator : MonoBehaviour
         // 3. Start the new action
         newAction.Start();
         _activeActions.Add(newAction);
+
+        return true;
     }
 
-    public void TryStopAction(IAction action)
+    public bool TryStopAction(IAction action)
     {
         if (_activeActions.Contains(action))
         {
             action.Stop();
             _activeActions.Remove(action);
+            return true;
         }
+        return false;
     }
 
     private void Update()
     {
-        // Tick all active actions
         for (int i = _activeActions.Count - 1; i >= 0; i--)
         {
-            _activeActions[i].Update();
+            IAction action = _activeActions[i];
+
+            // 1. Check if the action finished itself (e.g., reached the ground)
+            if (action.IsFinished())
+            {
+                action.Stop();
+                _activeActions.RemoveAt(i);
+                continue;
+            }
+
+            action.Update();
         }
     }
 

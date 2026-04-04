@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class IdleState : IState
 {
-    private readonly IInputEvents _inputEvents;
+    private readonly IPlayerInput _inputEvents;
 
-    public IdleState(IInputEvents inputEvents)
+    public IdleState(IPlayerInput inputEvents)
     {
         _inputEvents = inputEvents;
     }

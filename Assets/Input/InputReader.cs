@@ -2,14 +2,19 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions, IInputEvents
+public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions, IPlayerInput
 {
     public event Action<float> OnMoveEvent;
     private float _horizontalMove;
     public float GetHorizontalMoveInput() => _horizontalMove;
+    private bool _isJumpPressed;
+    public bool IsJumpPressed() => _isJumpPressed;
     public event Action OnJumpEvent;
     public event Action OnAttackEvent;
     public event Action OnDashEvent;
+    public event Action OnFallEvent;
+    private float _fallInputValue;
+    public float GetFallInput() => _fallInputValue;
 
     private PlayerInputActions playerInputActions;
 
@@ -46,7 +51,15 @@ public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions, I
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
+        {
+            _isJumpPressed = true;
             OnJumpEvent?.Invoke();
+        }
+        else if (context.canceled)
+        {
+            _isJumpPressed = false;
+        }
+
     }
 
     public void OnAttack(InputAction.CallbackContext context)
@@ -59,5 +72,20 @@ public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions, I
     {
         if (context.performed)
             OnDashEvent?.Invoke();
+    }
+
+    public void OnFall(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            _fallInputValue = - context.ReadValue<float>();
+            Debug.Log($"Fall input value: {_fallInputValue}");
+            OnFallEvent?.Invoke();
+        }
+        else if (context.canceled)
+        {
+            _fallInputValue = 0f;
+            OnFallEvent?.Invoke();
+        }
     }
 }

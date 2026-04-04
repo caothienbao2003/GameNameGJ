@@ -5,8 +5,8 @@ public class PlayerStateMachineController : SerializedMonoBehaviour
 {
     [SerializeField] private StateMachineComponent _stateMachineComponent;
     private StateMachineComponent stateMachineComponent => _stateMachineComponent ??= GetComponent<StateMachineComponent>();
-    [SerializeField] private IInputEvents _inputEvents;
-    private IInputEvents inputEvents => _inputEvents ??= GetComponent<IInputEvents>();
+    [SerializeField] private IPlayerInput _inputEvents;
+    private IPlayerInput inputEvents => _inputEvents ??= GetComponent<IPlayerInput>();
     [SerializeField] private IMoveToDirection _moveToDirection;
     private IMoveToDirection moveToDirection => _moveToDirection ??= GetComponent<IMoveToDirection>();
 

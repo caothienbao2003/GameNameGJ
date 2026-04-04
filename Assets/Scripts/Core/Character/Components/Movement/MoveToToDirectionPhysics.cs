@@ -1,46 +1,56 @@
-using System;
 using UnityEngine;
 
 public class MoveToToDirectionPhysicsComponent : MonoBehaviour, IMoveToDirection
 {
-    private enum MoveType
+    [Header("Celeste-Style Settings")]
+    [SerializeField] private float maxSpeed = 12f;
+    [SerializeField] private float acceleration = 60f;  // How fast we reach max speed
+    [SerializeField] private float deceleration = 80f;  // How fast we stop
+    [SerializeField] private float frictionMultiplier = 2.5f; // Extra "grip" when turning
+
+    private Rigidbody2D _rb;
+    private Rigidbody2D rb => _rb ??= GetComponent<Rigidbody2D>();
+
+    public void MoveToDirection(Vector3 direction)
     {
-        Velocity,
-        AddForce
-    }
-    [SerializeField] private MoveType moveType = MoveType.Velocity;
+        // 1. Calculate the velocity we WANT to have
+        float targetSpeed = direction.x * maxSpeed;
 
-    [SerializeField] private float moveSpeed;
+        // 2. Determine which friction/acceleration rate to use
+        float lerpAmount;
 
-    private Vector3 moveDirection;
-
-    private Rigidbody2D _rigidbody2D;
-
-    private Rigidbody2D rb => _rigidbody2D ??= GetComponent<Rigidbody2D>();
-
-    public void MoveToDirection(Vector3 moveDirection)
-    {
-        this.moveDirection = moveDirection;
-        this.moveDirection.Normalize();
-    }
-
-    private void FixedUpdate()
-    {
-        if (moveDirection == Vector3.zero) return;
-        switch (moveType)
+        if (Mathf.Abs(targetSpeed) > 0.01f)
         {
-            case MoveType.Velocity:
-                rb.linearVelocity = new Vector3(moveDirection.x * moveSpeed, rb.linearVelocityY, 0f);
-                break;
-            case MoveType.AddForce:
-                rb.AddForce(moveDirection * moveSpeed, ForceMode2D.Force);
-                break;
+            // We are actively pushing a direction
+            lerpAmount = acceleration;
+
+            // --- TURN AROUND LOGIC ---
+            // If we are moving Right (vel > 0) but pressing Left (target < 0) or vice versa
+            bool isTurning = (targetSpeed > 0 && rb.linearVelocity.x < -0.01f) ||
+                             (targetSpeed < 0 && rb.linearVelocity.x > 0.01f);
+
+            if (isTurning)
+            {
+                // Apply massive friction to flip the character's momentum instantly
+                lerpAmount *= frictionMultiplier;
+            }
+        }
+        else
+        {
+            // We let go of the keys, use deceleration
+            lerpAmount = deceleration;
         }
 
+        // 3. Apply the movement over time (FixedDeltaTime for physics consistency)
+        float newX = Mathf.MoveTowards(rb.linearVelocity.x, targetSpeed, lerpAmount * Time.fixedDeltaTime);
+
+        // 4. Update the Rigidbody (Keeping Y velocity for jumping!)
+        rb.linearVelocity = new Vector2(newX, rb.linearVelocity.y);
     }
 
     public void Stop()
     {
-        rb.linearVelocity = new Vector3(0, rb.linearVelocityY, 0f);
+        // Instead of a hard 0, we "MoveTo" zero to allow the slide to finish
+        MoveToDirection(Vector3.zero);
     }
 }
