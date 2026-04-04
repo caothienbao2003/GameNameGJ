@@ -1,32 +1,41 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class JumpPhysicsComponent : MonoBehaviour, IJumpComponent
 {
+    public event Action OnJumpEvent;
+    public event Action OnLandEvent;
+
     [Header("Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Vector2 boxSize = new Vector2(0.5f, 0.1f);
 
     [Header("Base Physics")]
-    [SerializeField] private float jumpForce = 16f; // "Jump Fast" starts here
-    [SerializeField] private float defaultGravity = 4f;
+    [SerializeField] private float jumpForce = 16f;
+    [SerializeField] private float defaultGravity = 4.5f;
     [SerializeField] private float jumpCutMultiplier = 0.3f;
 
-    [Header("The 'Feel' Multipliers")]
-    [SerializeField] private float fallGravityMultiplier = 1.9f; // "Fall Fast"
-    [SerializeField] private float hangGravityMultiplier = 0.5f; // "Slow in Air"
-    [SerializeField] private float hangThreshold = 2.0f;         // Velocity range for the peak
+    [Header("Feel Multipliers")]
+    [SerializeField] private float fallGravityMultiplier = 2.0f;
+    [SerializeField] private float hangGravityMultiplier = 0.4f;
+    [SerializeField] private float hangThreshold = 2.5f;
+    [SerializeField] private float downPressGravityMult = 3.5f;
 
-    [Header("Fall Settings")]
-    [SerializeField] private float downPressGravityMult = 3.0f; // Very heavy fall
-    public float DownPressMult => downPressGravityMult;
-
+    [Header("Grace Periods")]
+    [SerializeField] private float coyoteTimeThreshold = 0.15f;
+    
     private Rigidbody2D _rb;
+    private float _coyoteTimeCounter;
+    private bool _wasGroundedLastFrame;
+    private float _lastFrameYVelocity;
+
     public float DefaultGravity => defaultGravity;
     public float FallGravityMult => fallGravityMultiplier;
     public float JumpHangGravityMult => hangGravityMultiplier;
     public float JumpHangThreshold => hangThreshold;
+    public float DownPressMult => downPressGravityMult;
 
     private void Awake()
     {
@@ -34,12 +43,39 @@ public class JumpPhysicsComponent : MonoBehaviour, IJumpComponent
         _rb.gravityScale = defaultGravity;
     }
 
+    private void FixedUpdate()
+    {
+        // Remember velocity before physics resolution clears it on impact
+        _lastFrameYVelocity = _rb.linearVelocity.y;
+    }
+
+    private void Update()
+    {
+        bool isGrounded = IsGrounded();
+
+        // Landing Detection Logic
+        if (isGrounded && !_wasGroundedLastFrame)
+        {
+            if (_lastFrameYVelocity < -1.5f) // Threshold to avoid micro-squash on slopes
+            {
+                OnLandEvent?.Invoke();
+            }
+        }
+
+        _wasGroundedLastFrame = isGrounded;
+
+        if (isGrounded) _coyoteTimeCounter = coyoteTimeThreshold;
+        else _coyoteTimeCounter -= Time.deltaTime;
+    }
+
     public bool IsGrounded() => Physics2D.OverlapBox(groundCheck.position, boxSize, 0f, groundLayer);
+    public bool IsCoyoteTimeActive() => _coyoteTimeCounter > 0;
+    public void ConsumeCoyoteTime() => _coyoteTimeCounter = 0;
 
     public void ApplyJumpImpulse()
     {
-        // Direct velocity override for that "Instant" jump start
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpForce);
+        OnJumpEvent?.Invoke();
     }
 
     public void CutJumpVelocity()
@@ -54,6 +90,6 @@ public class JumpPhysicsComponent : MonoBehaviour, IJumpComponent
     {
         if (groundCheck == null) return;
         Gizmos.color = IsGrounded() ? Color.green : Color.red;
-        Gizmos.DrawWireCube(groundCheck.position, new Vector3(boxSize.x, boxSize.y, 0));
+        Gizmos.DrawWireCube(groundCheck.position, boxSize);
     }
 }

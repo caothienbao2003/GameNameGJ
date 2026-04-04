@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 177874130}
   - component: {fileID: 177874127}
   - component: {fileID: 177874131}
+  - component: {fileID: 177874132}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -264,9 +265,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActionController
   actionCoordinator: {fileID: 177874130}
   inputReader: {fileID: 177874128}
-  moveHorizontalComponent: {fileID: 177874127}
-  rb: {fileID: 177874122}
+  moveComponent: {fileID: 177874127}
   jumpComponent: {fileID: 177874131}
+  rb: {fileID: 177874122}
   jumpBufferTime: 1
 --- !u!114 &177874130
 MonoBehaviour:
@@ -299,10 +300,33 @@ MonoBehaviour:
   boxSize: {x: 0.5, y: 0.2}
   jumpForce: 30
   defaultGravity: 8
-  jumpCutMultiplier: 0.3
+  jumpCutMultiplier: 0.2
   fallGravityMultiplier: 2
   hangGravityMultiplier: 0.5
   hangThreshold: 2.5
+  downPressGravityMult: 3
+  coyoteTimeThreshold: 0.15
+--- !u!114 &177874132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177874121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d8d40dbcc9cd64d9c0ace9b4f2e8eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisuals
+  spriteTransform: {fileID: 1653271720}
+  rb: {fileID: 177874122}
+  jumpMotor: {fileID: 177874131}
+  stretchFactor: 0.03
+  maxStretch: 1.3
+  minStretch: 0.7
+  stretchSmoothTime: 0.1
+  landSquash: {x: 1.4, y: 0.6, z: 1}
+  landDuration: 0.1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
