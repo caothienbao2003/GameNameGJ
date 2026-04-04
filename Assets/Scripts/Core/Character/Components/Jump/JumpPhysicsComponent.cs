@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class JumpPhysicsComponent : MonoBehaviour, IJumpComponent
 {
     public event Action OnJumpEvent;
     public event Action OnLandEvent;
-
     [Header("Detection")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;

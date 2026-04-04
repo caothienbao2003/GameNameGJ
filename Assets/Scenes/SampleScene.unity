@@ -136,7 +136,6 @@ GameObject:
   - component: {fileID: 177874127}
   - component: {fileID: 177874131}
   - component: {fileID: 177874133}
-  - component: {fileID: 177874132}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -269,6 +268,8 @@ MonoBehaviour:
   moveComponent: {fileID: 177874127}
   jumpComponent: {fileID: 177874131}
   rb: {fileID: 177874122}
+  flipSpriteComponent: {fileID: 0}
+  stretchSpriteComponent: {fileID: 0}
   jumpBufferTime: 1
 --- !u!114 &177874130
 MonoBehaviour:
@@ -307,27 +308,6 @@ MonoBehaviour:
   hangThreshold: 2.5
   downPressGravityMult: 3
   coyoteTimeThreshold: 0.15
---- !u!114 &177874132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 177874121}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86d8d40dbcc9cd64d9c0ace9b4f2e8eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisuals
-  spriteTransform: {fileID: 1653271720}
-  rb: {fileID: 177874122}
-  jumpMotor: {fileID: 177874131}
-  stretchFactor: 0.03
-  maxStretch: 1.3
-  minStretch: 0.7
-  stretchSmoothTime: 0.1
-  landSquash: {x: 1.4, y: 0.6, z: 1}
-  landDuration: 0.1
 --- !u!114 &177874133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,6 +975,8 @@ GameObject:
   - component: {fileID: 1653271720}
   - component: {fileID: 1653271721}
   - component: {fileID: 1653271722}
+  - component: {fileID: 1653271724}
+  - component: {fileID: 1653271723}
   m_Layer: 0
   m_Name: Player Visual
   m_TagString: Untagged
@@ -1098,6 +1080,38 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1653271723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653271719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613c25cdc669f9f4d80f6be47b621eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlipSprite
+  spriteRenderer: {fileID: 1653271721}
+--- !u!114 &1653271724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653271719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d8d40dbcc9cd64d9c0ace9b4f2e8eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisuals
+  spriteTransform: {fileID: 1653271720}
+  stretchFactor: 0.03
+  maxStretch: 1.3
+  minStretch: 0.7
+  stretchSmoothTime: 0.1
+  landSquash: {x: 1.4, y: 0.6, z: 1}
+  landDuration: 0.1
 --- !u!1 &2074981327
 GameObject:
   m_ObjectHideFlags: 0

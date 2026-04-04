@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerActionController : MonoBehaviour
@@ -8,7 +9,8 @@ public class PlayerActionController : MonoBehaviour
     [SerializeField] private JumpPhysicsComponent jumpComponent;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private IAnimationService animService;
-    [SerializeField] private PlayerVisuals playerVisuals;
+    [SerializeField] private FlipSprite flipSpriteComponent;
+    [SerializeField] private StretchSprite stretchSpriteComponent;
     private MoveAction moveAction;
     private JumpAction jumpAction;
 
@@ -30,7 +32,9 @@ public class PlayerActionController : MonoBehaviour
         jumpComponent ??= GetComponent<JumpPhysicsComponent>();
         rb ??= GetComponent<Rigidbody2D>();
         animService ??= GetComponent<AnimatorComponent>();
-        playerVisuals ??= GetComponentInChildren<PlayerVisuals>();
+
+        flipSpriteComponent ??= GetComponentInChildren<FlipSprite>();
+        stretchSpriteComponent ??= GetComponentInChildren<StretchSprite>();
     }
 
     private void SetUpActions()
@@ -39,14 +43,34 @@ public class PlayerActionController : MonoBehaviour
         jumpAction = new JumpAction(jumpComponent, inputReader, rb, animService, 10);
     }
 
-    private void OnEnable() => inputReader.OnJumpEvent += () => _jumpBufferCounter = jumpBufferTime;
+    private void OnEnable()
+    {
+        RegisterEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnRegisterEvents();
+    }
+
+    private void RegisterEvents()
+    {
+        inputReader.OnJumpEvent += () => _jumpBufferCounter = jumpBufferTime;
+        jumpComponent.OnJumpEvent += stretchSpriteComponent.PlayJumpEffect;
+        jumpComponent.OnLandEvent += stretchSpriteComponent.PlayLandEffect;
+    }
+
+    private void UnRegisterEvents()
+    {
+        inputReader.OnJumpEvent -= () => _jumpBufferCounter = jumpBufferTime;
+        jumpComponent.OnJumpEvent -= stretchSpriteComponent.PlayJumpEffect;
+        jumpComponent.OnLandEvent -= stretchSpriteComponent.PlayLandEffect;
+    }
 
     void Update()
     {
         animService.SetBool(AnimHash.IsGrounded, jumpComponent.IsGrounded());
         animService.SetFloat(AnimHash.YVelocity, rb.linearVelocityY);
-
-        
 
         // Handle Movement
         if (Mathf.Abs(inputReader.GetHorizontalMoveInput()) > 0.01f)
@@ -58,5 +82,18 @@ public class PlayerActionController : MonoBehaviour
             _jumpBufferCounter -= Time.deltaTime;
             if (actionCoordinator.TryStartAction(jumpAction)) _jumpBufferCounter = 0;
         }
+
+        HandleSpriteFlip();
+        HandleSpriteDynamicStretch();
+    }
+
+    private void HandleSpriteDynamicStretch()
+    {
+        stretchSpriteComponent.HandleDynamicStretch(rb.linearVelocity.y);
+    }
+
+    private void HandleSpriteFlip()
+    {
+        flipSpriteComponent.Flip(inputReader.GetHorizontalMoveInput());
     }
 }
