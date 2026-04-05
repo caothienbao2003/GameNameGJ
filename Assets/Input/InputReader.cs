@@ -15,6 +15,8 @@ public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions, I
     public event Action OnFallEvent;
     private float _fallInputValue;
     public float GetFallInput() => _fallInputValue;
+    private float _verticalMove;
+    public float GetVerticalMoveInput() => _verticalMove;
 
     private PlayerInputActions playerInputActions;
 
@@ -78,7 +80,7 @@ public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions, I
     {
         if (context.performed)
         {
-            _fallInputValue = - context.ReadValue<float>();
+            _fallInputValue = -context.ReadValue<float>();
             Debug.Log($"Fall input value: {_fallInputValue}");
             OnFallEvent?.Invoke();
         }
@@ -86,6 +88,18 @@ public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions, I
         {
             _fallInputValue = 0f;
             OnFallEvent?.Invoke();
+        }
+    }
+
+    public void OnVerticalMove(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            _verticalMove = context.ReadValue<float>();
+        }
+        else if (context.canceled)
+        {
+            _verticalMove = 0f;
         }
     }
 }

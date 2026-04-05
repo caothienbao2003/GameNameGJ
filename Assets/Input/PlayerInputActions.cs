@@ -129,13 +129,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Fall"",
-                    ""type"": ""Value"",
-                    ""id"": ""aff9791b-795f-43ff-a5a0-e2b21922f1eb"",
-                    ""expectedControlType"": ""Double"",
+                    ""name"": ""Vertical Move"",
+                    ""type"": ""Button"",
+                    ""id"": ""6dd5299e-d26d-41fa-a103-aca4c9e79450"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fall"",
+                    ""type"": ""Button"",
+                    ""id"": ""c4f11336-adc1-4c1d-8c5c-2645060da6f8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -206,8 +215,41 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""6bf12565-4867-4cd1-b94b-a8ddf41eb30b"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""29127631-df9c-4576-bc81-1624bdd0b50e"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""e8b799bc-912c-476f-b460-0ab6e9ba6050"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Vertical Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
-                    ""id"": ""805786b0-403d-4509-ba00-f45eb27717d1"",
+                    ""id"": ""62061d2a-25c9-4a86-93dd-4a39df957180"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -244,6 +286,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
+        m_Gameplay_VerticalMove = m_Gameplay.FindAction("Vertical Move", throwIfNotFound: true);
         m_Gameplay_Fall = m_Gameplay.FindAction("Fall", throwIfNotFound: true);
     }
 
@@ -329,6 +372,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Jump;
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_Dash;
+    private readonly InputAction m_Gameplay_VerticalMove;
     private readonly InputAction m_Gameplay_Fall;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
@@ -357,6 +401,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/Dash".
         /// </summary>
         public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/VerticalMove".
+        /// </summary>
+        public InputAction @VerticalMove => m_Wrapper.m_Gameplay_VerticalMove;
         /// <summary>
         /// Provides access to the underlying input action "Gameplay/Fall".
         /// </summary>
@@ -399,6 +447,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @VerticalMove.started += instance.OnVerticalMove;
+            @VerticalMove.performed += instance.OnVerticalMove;
+            @VerticalMove.canceled += instance.OnVerticalMove;
             @Fall.started += instance.OnFall;
             @Fall.performed += instance.OnFall;
             @Fall.canceled += instance.OnFall;
@@ -425,6 +476,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @VerticalMove.started -= instance.OnVerticalMove;
+            @VerticalMove.performed -= instance.OnVerticalMove;
+            @VerticalMove.canceled -= instance.OnVerticalMove;
             @Fall.started -= instance.OnFall;
             @Fall.performed -= instance.OnFall;
             @Fall.canceled -= instance.OnFall;
@@ -509,6 +563,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDash(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Vertical Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnVerticalMove(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Fall" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

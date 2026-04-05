@@ -28,12 +28,12 @@ public class MoveAction : IAction
 
         if (Mathf.Abs(xInput) > 0.01f || currentVelocity > 0.1f)
         {
-           _animService.SetBool(AnimHash.IsMoving, true);
+           _animService.SetBool(AnimHash.IsMovingBool, true);
         }
         else
         {
             // Otherwise, this action is responsible for Idle
-            _animService.SetBool(AnimHash.IsMoving, false);
+            _animService.SetBool(AnimHash.IsMovingBool, false);
         }
     }
 
@@ -55,6 +55,6 @@ public class MoveAction : IAction
     {
         _moveComponent.Stop();
         // Fallback: Ensure we transition to Idle when the action is forced to stop (e.g., Death/Cutscene)
-        _animService.SetBool(AnimHash.IsMoving, false);
+        _animService.SetBool(AnimHash.IsMovingBool, false);
     }
 }

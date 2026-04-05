@@ -128,133 +128,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player wall land 48x48_0
+      name: Wall land_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 5
-        width: 22
-        height: 37
+        x: 0
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6f4e46ddc251bd580800000000000000
-      internalID: -8801417764328381194
+      spriteID: 94ed079345dfaf84480f1b29d979a8e8
+      internalID: 506160840
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player wall land 48x48_1
+      name: Wall land_1
       rect:
         serializedVersion: 2
-        x: 57
-        y: 5
-        width: 22
-        height: 37
+        x: 48
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: be81086b77a8fd7c0800000000000000
-      internalID: -4044361693587826453
+      spriteID: ac1f7f4c97db9c94fb44b5a96e1b8e61
+      internalID: 1885703718
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player wall land 48x48_2
+      name: Wall land_2
       rect:
         serializedVersion: 2
-        x: 107
-        y: 5
-        width: 20
-        height: 37
+        x: 96
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cba2159ca70cbcfc0800000000000000
-      internalID: -3473471053990122820
+      spriteID: 31caab206e9028f47b887fb9e793f4dc
+      internalID: 1887962396
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player wall land 48x48_3
+      name: Wall land_3
       rect:
         serializedVersion: 2
-        x: 155
-        y: 5
-        width: 20
-        height: 37
+        x: 144
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 05d4d6de2132d2130800000000000000
-      internalID: 3543527046010195280
+      spriteID: fd5dc5ca04890de439df883cc30a2bf4
+      internalID: -1004647640
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player wall land 48x48_4
+      name: Wall land_4
       rect:
         serializedVersion: 2
-        x: 205
-        y: 5
-        width: 18
-        height: 37
+        x: 192
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4da38143c67bceb00800000000000000
-      internalID: 859263304279276244
+      spriteID: 6735512da31024e45b35892f3734a58d
+      internalID: 1853538238
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player wall land 48x48_5
+      name: Wall land_5
       rect:
         serializedVersion: 2
-        x: 253
-        y: 5
-        width: 18
-        height: 37
+        x: 240
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f310b3cd36f07cb00800000000000000
-      internalID: 848663976353661247
+      spriteID: 0446e940c6fe050488a60063c0552e29
+      internalID: 1284759592
       vertices: []
       indices: 
       edges: []
@@ -263,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 667db0fd2fa080445a0d5c1358d1da82
     internalID: 0
     vertices: []
     indices: 
@@ -271,14 +271,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      player wall land 48x48_0: -8801417764328381194
-      player wall land 48x48_1: -4044361693587826453
-      player wall land 48x48_2: -3473471053990122820
-      player wall land 48x48_3: 3543527046010195280
-      player wall land 48x48_4: 859263304279276244
-      player wall land 48x48_5: 848663976353661247
+      Wall land_0: 506160840
+      Wall land_1: 1885703718
+      Wall land_2: 1887962396
+      Wall land_3: -1004647640
+      Wall land_4: 1853538238
+      Wall land_5: 1284759592
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

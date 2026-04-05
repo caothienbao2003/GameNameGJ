@@ -125,111 +125,111 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player ledge climb 48x48_0
+      name: Legde edge climb_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 5
-        width: 21
-        height: 33
+        x: 0
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 12dbc0b074672e030800000000000000
-      internalID: 3522507906057288993
+      spriteID: 41bc64917c4bbb24caab3e9b4fc61bf3
+      internalID: -1609629637
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player ledge climb 48x48_1
+      name: Legde edge climb_1
       rect:
         serializedVersion: 2
-        x: 69
-        y: 5
-        width: 12
-        height: 32
+        x: 48
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cb79cdddd48b9f450800000000000000
-      internalID: 6123127812961114044
+      spriteID: 4c646975eb217e44097d6ef9274462e9
+      internalID: -1851073192
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player ledge climb 48x48_2
+      name: Legde edge climb_2
       rect:
         serializedVersion: 2
-        x: 111
-        y: 7
-        width: 17
-        height: 31
+        x: 96
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2e59fbe6382076240800000000000000
-      internalID: 4784795892626462178
+      spriteID: 9fce25d24a10e2046a4a84e013ab3e85
+      internalID: 986359326
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player ledge climb 48x48_3
+      name: Legde edge climb_3
       rect:
         serializedVersion: 2
-        x: 160
-        y: 5
-        width: 19
-        height: 29
+        x: 144
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 744e4e6e922f0fb50800000000000000
-      internalID: 6625061313643340871
+      spriteID: 5f91f427a8869a746a7aeb13ab16f32c
+      internalID: 108786303
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player ledge climb 48x48_4
+      name: Legde edge climb_4
       rect:
         serializedVersion: 2
-        x: 205
-        y: 9
-        width: 22
-        height: 21
+        x: 192
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 61777eef03632e6c0800000000000000
-      internalID: -4115667525400299754
+      spriteID: 7957d684ebe3d5a4b8d8df5c5cb3321b
+      internalID: 415863831
       vertices: []
       indices: 
       edges: []
@@ -238,7 +238,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f8dd1896ef9d23d43b18032ad3f80942
     internalID: 0
     vertices: []
     indices: 
@@ -246,13 +246,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      player ledge climb 48x48_0: 3522507906057288993
-      player ledge climb 48x48_1: 6123127812961114044
-      player ledge climb 48x48_2: 4784795892626462178
-      player ledge climb 48x48_3: 6625061313643340871
-      player ledge climb 48x48_4: -4115667525400299754
+      Legde edge climb_0: -1609629637
+      Legde edge climb_1: -1851073192
+      Legde edge climb_2: 986359326
+      Legde edge climb_3: 108786303
+      Legde edge climb_4: 415863831
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

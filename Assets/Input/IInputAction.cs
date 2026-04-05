@@ -11,4 +11,5 @@ public interface IPlayerInput
     event Action OnDashEvent;
     event Action OnFallEvent;
     float GetFallInput();
+    float GetVerticalMoveInput();
 }

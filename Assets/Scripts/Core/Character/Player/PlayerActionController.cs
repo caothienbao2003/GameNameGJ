@@ -11,8 +11,14 @@ public class PlayerActionController : MonoBehaviour
     [SerializeField] private IAnimationService animService;
     [SerializeField] private FlipSprite flipSpriteComponent;
     [SerializeField] private StretchSprite stretchSpriteComponent;
+    [SerializeField] private DashComponent dashComponent;
+    [SerializeField] private WallActionComponent wallDetectionComponent;
     private MoveAction moveAction;
     private JumpAction jumpAction;
+    private DashAction dashAction;
+    private WallJumpAction wallJumpAction;
+    private WallSlideAction wallSlideAction;
+    private WallEdgeClimbAction wallEdgeClimbAction;
 
     [SerializeField] private float jumpBufferTime = 0.12f;
     private float _jumpBufferCounter;
@@ -30,8 +36,10 @@ public class PlayerActionController : MonoBehaviour
         inputReader ??= GetComponent<InputReader>();
         moveComponent ??= GetComponent<MoveHorizontalComponent>();
         jumpComponent ??= GetComponent<JumpPhysicsComponent>();
+        wallDetectionComponent ??= GetComponent<WallActionComponent>();
         rb ??= GetComponent<Rigidbody2D>();
         animService ??= GetComponent<AnimatorComponent>();
+        dashComponent ??= GetComponent<DashComponent>();
 
         flipSpriteComponent ??= GetComponentInChildren<FlipSprite>();
         stretchSpriteComponent ??= GetComponentInChildren<StretchSprite>();
@@ -41,6 +49,11 @@ public class PlayerActionController : MonoBehaviour
     {
         moveAction = new MoveAction(moveComponent, inputReader, rb, animService, 10);
         jumpAction = new JumpAction(jumpComponent, inputReader, rb, animService, 10);
+        dashAction = new DashAction(dashComponent, inputReader, animService, flipSpriteComponent, 20);
+
+        wallJumpAction = new WallJumpAction(wallDetectionComponent, rb, animService, flipSpriteComponent, 30);
+        wallSlideAction = new WallSlideAction(wallDetectionComponent, inputReader, rb, animService, flipSpriteComponent, jumpComponent, 25);
+        wallEdgeClimbAction = new WallEdgeClimbAction(wallDetectionComponent, rb, animService, flipSpriteComponent, 40);
     }
 
     private void OnEnable()
@@ -56,25 +69,34 @@ public class PlayerActionController : MonoBehaviour
     private void RegisterEvents()
     {
         inputReader.OnJumpEvent += () => _jumpBufferCounter = jumpBufferTime;
-        jumpComponent.OnJumpEvent += stretchSpriteComponent.PlayJumpEffect;
-        jumpComponent.OnLandEvent += stretchSpriteComponent.PlayLandEffect;
+        inputReader.OnDashEvent += () => actionCoordinator.TryStartAction(dashAction);
+        if (jumpComponent != null && stretchSpriteComponent != null)
+        {
+            jumpComponent.OnJumpEvent += stretchSpriteComponent.PlayJumpEffect;
+            jumpComponent.OnLandEvent += stretchSpriteComponent.PlayLandEffect;
+        }
     }
 
     private void UnRegisterEvents()
     {
         inputReader.OnJumpEvent -= () => _jumpBufferCounter = jumpBufferTime;
-        jumpComponent.OnJumpEvent -= stretchSpriteComponent.PlayJumpEffect;
-        jumpComponent.OnLandEvent -= stretchSpriteComponent.PlayLandEffect;
+        inputReader.OnDashEvent -= () => actionCoordinator.TryStartAction(dashAction);
+
+        if (jumpComponent != null && stretchSpriteComponent != null)
+        {
+            jumpComponent.OnJumpEvent -= stretchSpriteComponent.PlayJumpEffect;
+            jumpComponent.OnLandEvent -= stretchSpriteComponent.PlayLandEffect;
+        }
     }
 
     void Update()
     {
-        animService.SetBool(AnimHash.IsGrounded, jumpComponent.IsGrounded());
-        animService.SetFloat(AnimHash.YVelocity, rb.linearVelocityY);
+        animService.SetBool(AnimHash.IsGroundedBool, jumpComponent.IsGrounded());
+        animService.SetFloat(AnimHash.YVelocityFloat, rb.linearVelocityY);
 
         // Handle Movement
-        if (Mathf.Abs(inputReader.GetHorizontalMoveInput()) > 0.01f)
-            actionCoordinator.TryStartAction(moveAction);
+        // if (Mathf.Abs(inputReader.GetHorizontalMoveInput()) > 0.01f)
+        actionCoordinator.TryStartAction(moveAction);
 
         // Handle Jump Buffer
         if (_jumpBufferCounter > 0)
@@ -83,13 +105,45 @@ public class PlayerActionController : MonoBehaviour
             if (actionCoordinator.TryStartAction(jumpAction)) _jumpBufferCounter = 0;
         }
 
+        // 1. Always check for Wall Climb first (Highest Priority)
+        if (wallDetectionComponent.CanLedgeClimb(flipSpriteComponent.FaceDirection))
+        {
+            actionCoordinator.TryStartAction(wallEdgeClimbAction);
+        }
+
+        // 2. Check Wall Interactions
+        else if (wallDetectionComponent.IsTouchingWall(flipSpriteComponent.FaceDirection))
+        {
+            float horizontalInput = inputReader.GetHorizontalMoveInput();
+            bool isPushingWall = horizontalInput * flipSpriteComponent.FaceDirection > 0.1f;
+
+            // WALL JUMP: Only if the buffer is active (recent press)
+            if (_jumpBufferCounter > 0)
+            {
+                if (actionCoordinator.TryStartAction(wallJumpAction))
+                {
+                    _jumpBufferCounter = 0; // Consume the buffer
+                    return; // Exit so we don't slide on the same frame
+                }
+            }
+
+            // WALL SLIDE: Only if falling AND pushing into the wall
+            if (rb.linearVelocity.y <= 0 && isPushingWall)
+            {
+                actionCoordinator.TryStartAction(wallSlideAction);
+            }
+        }
+
         HandleSpriteFlip();
         HandleSpriteDynamicStretch();
     }
 
     private void HandleSpriteDynamicStretch()
     {
-        stretchSpriteComponent.HandleDynamicStretch(rb.linearVelocity.y);
+        if (stretchSpriteComponent != null)
+        {
+            stretchSpriteComponent.HandleDynamicStretch(rb.linearVelocity.y);
+        }
     }
 
     private void HandleSpriteFlip()

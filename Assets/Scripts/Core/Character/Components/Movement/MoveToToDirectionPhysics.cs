@@ -4,13 +4,17 @@ public class MoveHorizontalComponent : MonoBehaviour, IMoveToDirection
 {
     [Header("Celeste-Style Settings")]
     [SerializeField] private float maxSpeed = 12f;
-    [SerializeField] private float acceleration = 60f;  // How fast we reach max speed
-    [SerializeField] private float deceleration = 80f;  // How fast we stop
+    [SerializeField] private float accelerationGround = 60f;  // How fast we reach max speed
+    [SerializeField] private float decelerationGround = 80f;  // How fast we stop
+    [SerializeField] private float accelerationAir = 80f;     // Less control in air
+    [SerializeField] private float decelerationAir = 50f;     // How fast we stop in air
     [SerializeField] private float frictionMultiplier = 2.5f; // Extra "grip" when turning
 
     private Rigidbody2D _rb;
     private Rigidbody2D rb => _rb ??= GetComponent<Rigidbody2D>();
 
+    private JumpPhysicsComponent _jumpComponent;
+    private JumpPhysicsComponent jumpComponent => _jumpComponent ??= GetComponent<JumpPhysicsComponent>();
     public void MoveToDirection(Vector3 direction)
     {
         // 1. Calculate the velocity we WANT to have
@@ -22,7 +26,10 @@ public class MoveHorizontalComponent : MonoBehaviour, IMoveToDirection
         if (Mathf.Abs(targetSpeed) > 0.01f)
         {
             // We are actively pushing a direction
-            lerpAmount = acceleration;
+            if (jumpComponent.IsGrounded())
+                lerpAmount = accelerationGround;
+            else
+                lerpAmount = accelerationAir;
 
             // --- TURN AROUND LOGIC ---
             // If we are moving Right (vel > 0) but pressing Left (target < 0) or vice versa
@@ -38,7 +45,10 @@ public class MoveHorizontalComponent : MonoBehaviour, IMoveToDirection
         else
         {
             // We let go of the keys, use deceleration
-            lerpAmount = deceleration;
+            if (jumpComponent.IsGrounded())
+                lerpAmount = decelerationGround;
+            else
+                lerpAmount = decelerationAir;
         }
 
         // 3. Apply the movement over time (FixedDeltaTime for physics consistency)

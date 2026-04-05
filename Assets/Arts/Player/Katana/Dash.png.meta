@@ -140,221 +140,199 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dash_0
+      name: Dash_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 7
-        width: 34
-        height: 28
+        x: 0
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d765fefe97aeea260800000000000000
-      internalID: 7110878671101974141
+      spriteID: 28884984dcca03540b193a74dd90a1dc
+      internalID: -941970750
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_1
+      name: Dash_1
       rect:
         serializedVersion: 2
-        x: 57
-        y: 7
-        width: 31
-        height: 28
+        x: 48
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a5c7556e88e321a60800000000000000
-      internalID: 7643240275301989466
+      spriteID: d054ff47ba54f30438c73050a7a876f3
+      internalID: -1727689281
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_2
+      name: Dash_2
       rect:
         serializedVersion: 2
-        x: 105
-        y: 7
-        width: 31
-        height: 28
+        x: 96
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 544fd81e07a0db580800000000000000
-      internalID: -8809873816130030523
+      spriteID: ccf52f61f7151a940b0a5f96d0c19a42
+      internalID: -1571440890
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_3
+      name: Dash_3
       rect:
         serializedVersion: 2
-        x: 153
-        y: 7
-        width: 31
-        height: 28
+        x: 144
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ff661de7c4eeccdb0800000000000000
-      internalID: -4770175892979620097
+      spriteID: 312dec33138606e468f01b16df0fa3dd
+      internalID: -1811530603
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_4
+      name: Dash_4
       rect:
         serializedVersion: 2
-        x: 201
-        y: 7
-        width: 31
-        height: 28
+        x: 192
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 94812f07605eb7fe0800000000000000
-      internalID: -1190105860681885623
+      spriteID: e04c9eb659ff0f54a8e54b30090b48e5
+      internalID: -411390087
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_5
+      name: Dash_5
       rect:
         serializedVersion: 2
-        x: 248
-        y: 7
-        width: 25
-        height: 29
+        x: 240
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: eb5d537d273d28f60800000000000000
-      internalID: 8035217175372748222
+      spriteID: 22a02a449216a5d43b0caddd3ed1138f
+      internalID: 165577367
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_6
+      name: Dash_6
       rect:
         serializedVersion: 2
-        x: 297
-        y: 7
-        width: 24
-        height: 29
+        x: 288
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 23afc804eaf5da900800000000000000
-      internalID: 697318719324224050
+      spriteID: 052560232dbb9f9419491445f2106cb7
+      internalID: -657461152
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_7
+      name: Dash_7
       rect:
         serializedVersion: 2
-        x: 343
-        y: 7
-        width: 27
-        height: 30
+        x: 336
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9f956846c26994ef0800000000000000
-      internalID: -123402397366724103
+      spriteID: f3070f5b0579ffd4ba1726c807f7165a
+      internalID: 1491149516
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: dash_8
+      name: Dash_8
       rect:
         serializedVersion: 2
-        x: 394
-        y: 5
-        width: 24
-        height: 25
+        x: 384
+        y: 0
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 83f279dc3e373c910800000000000000
-      internalID: 1856454893650784056
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: dash_9
-      rect:
-        serializedVersion: 2
-        x: 405
-        y: 29
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a74c832699a77a2a0800000000000000
-      internalID: -6726272719258073990
+      spriteID: a3efae9ae8fae084fb15daac7d6e7170
+      internalID: 350659328
       vertices: []
       indices: 
       edges: []
@@ -363,7 +341,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1074793c9a514e04e86af7de7fbe3ba4
     internalID: 0
     vertices: []
     indices: 
@@ -371,18 +349,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      dash_0: 7110878671101974141
-      dash_1: 7643240275301989466
-      dash_2: -8809873816130030523
-      dash_3: -4770175892979620097
-      dash_4: -1190105860681885623
-      dash_5: 8035217175372748222
-      dash_6: 697318719324224050
-      dash_7: -123402397366724103
-      dash_8: 1856454893650784056
-      dash_9: -6726272719258073990
+      Dash_0: -941970750
+      Dash_1: -1727689281
+      Dash_2: -1571440890
+      Dash_3: -1811530603
+      Dash_4: -411390087
+      Dash_5: 165577367
+      Dash_6: -657461152
+      Dash_7: 1491149516
+      Dash_8: 350659328
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
