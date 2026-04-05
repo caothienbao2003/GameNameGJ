@@ -7,14 +7,16 @@ public class JumpAction : IAction
     private readonly IPlayerInput _input;
     private readonly Rigidbody2D _rb;
     private readonly IAnimationService _animService;
+    private readonly IMoveToDirection _moveComponent;
     private bool _isJumping;
 
-    public JumpAction(IJumpComponent jumpComponent, IPlayerInput input, Rigidbody2D rb, IAnimationService animService, int priority)
+    public JumpAction(IJumpComponent jumpComponent, IPlayerInput input, Rigidbody2D rb, IAnimationService animService, IMoveToDirection moveComponent, int priority)
     {
         _jumpComponent = jumpComponent;
         _input = input;
         _rb = rb;
         _animService = animService;
+        _moveComponent = moveComponent;
         Priority = priority;
     }
 

@@ -8,7 +8,7 @@ public class MoveHorizontalComponent : MonoBehaviour, IMoveToDirection
     [SerializeField] private float decelerationGround = 80f;  // How fast we stop
     [SerializeField] private float accelerationAir = 80f;     // Less control in air
     [SerializeField] private float decelerationAir = 50f;     // How fast we stop in air
-    [SerializeField] private float frictionMultiplier = 2.5f; // Extra "grip" when turning
+    [SerializeField] private float turningMultiplier = 2.5f; // Extra "grip" when turning
 
     private Rigidbody2D _rb;
     private Rigidbody2D rb => _rb ??= GetComponent<Rigidbody2D>();
@@ -39,7 +39,7 @@ public class MoveHorizontalComponent : MonoBehaviour, IMoveToDirection
             if (isTurning)
             {
                 // Apply massive friction to flip the character's momentum instantly
-                lerpAmount *= frictionMultiplier;
+                lerpAmount *= turningMultiplier;
             }
         }
         else

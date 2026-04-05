@@ -46,7 +46,6 @@ public class DashAction : IAction
         _dashMotor.ExecuteDash(dashDir, () =>
         {
             _isDashing = false;
-            _anim.ReleasePriority();
         });
 
         _anim.SetBool(AnimHash.IsDashingBool, true);

@@ -24,13 +24,25 @@ public class WallSlideAction : IAction
         Priority = priority;
     }
 
+    // public bool CanStart()
+    // {
+    //     float moveInput = _input.GetHorizontalMoveInput();
+    //     // We remove the Y velocity check here so the Action Coordinator 
+    //     // doesn't immediately kill the action if velocity fluctuates
+    //     return _detector.IsTouchingWall(_flip.FaceDirection) &&
+    //            Mathf.Abs(moveInput) > 0.1f && !_jumpComponent.IsGrounded();
+    // }
+
     public bool CanStart()
     {
         float moveInput = _input.GetHorizontalMoveInput();
-        // We remove the Y velocity check here so the Action Coordinator 
-        // doesn't immediately kill the action if velocity fluctuates
-        return _detector.IsTouchingWall(_flip.FaceDirection) &&
-               Mathf.Abs(moveInput) > 0.1f && !_jumpComponent.IsGrounded();
+        bool isTouching = _detector.IsTouchingWall(_flip.FaceDirection);
+        bool isGrounded = _jumpComponent.IsGrounded();
+
+        // Check if player is actively trying to pull AWAY (input opposite to facing direction)
+        bool isPullingAway = (moveInput * _flip.FaceDirection) < -0.1f;
+
+        return isTouching && !isGrounded && !isPullingAway;
     }
 
     public void Start()

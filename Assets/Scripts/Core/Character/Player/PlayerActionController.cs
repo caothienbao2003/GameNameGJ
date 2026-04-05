@@ -13,6 +13,7 @@ public class PlayerActionController : MonoBehaviour
     [SerializeField] private StretchSprite stretchSpriteComponent;
     [SerializeField] private DashComponent dashComponent;
     [SerializeField] private WallActionComponent wallDetectionComponent;
+    private IdleAction idleAction;
     private MoveAction moveAction;
     private JumpAction jumpAction;
     private DashAction dashAction;
@@ -47,8 +48,9 @@ public class PlayerActionController : MonoBehaviour
 
     private void SetUpActions()
     {
+        idleAction = new IdleAction(moveComponent, animService, 0);
         moveAction = new MoveAction(moveComponent, inputReader, rb, animService, 10);
-        jumpAction = new JumpAction(jumpComponent, inputReader, rb, animService, 10);
+        jumpAction = new JumpAction(jumpComponent, inputReader, rb, animService, moveComponent, 10);
         dashAction = new DashAction(dashComponent, inputReader, animService, flipSpriteComponent, 20);
 
         wallJumpAction = new WallJumpAction(wallDetectionComponent, rb, animService, flipSpriteComponent, 30);
@@ -94,9 +96,13 @@ public class PlayerActionController : MonoBehaviour
         animService.SetBool(AnimHash.IsGroundedBool, jumpComponent.IsGrounded());
         animService.SetFloat(AnimHash.YVelocityFloat, rb.linearVelocityY);
 
+        actionCoordinator.TryStartAction(idleAction); // Idle is the fallback if no other actions are active
+
         // Handle Movement
-        // if (Mathf.Abs(inputReader.GetHorizontalMoveInput()) > 0.01f)
-        actionCoordinator.TryStartAction(moveAction);
+        if (Mathf.Abs(inputReader.GetHorizontalMoveInput()) > 0.01f)
+        {
+            actionCoordinator.TryStartAction(moveAction);
+        }
 
         // Handle Jump Buffer
         if (_jumpBufferCounter > 0)
@@ -114,25 +120,46 @@ public class PlayerActionController : MonoBehaviour
         // 2. Check Wall Interactions
         else if (wallDetectionComponent.IsTouchingWall(flipSpriteComponent.FaceDirection))
         {
-            float horizontalInput = inputReader.GetHorizontalMoveInput();
-            bool isPushingWall = horizontalInput * flipSpriteComponent.FaceDirection > 0.1f;
-
-            // WALL JUMP: Only if the buffer is active (recent press)
+            // WALL JUMP: Check buffer first
             if (_jumpBufferCounter > 0)
             {
                 if (actionCoordinator.TryStartAction(wallJumpAction))
                 {
-                    _jumpBufferCounter = 0; // Consume the buffer
-                    return; // Exit so we don't slide on the same frame
+                    _jumpBufferCounter = 0;
+                    return;
                 }
             }
 
-            // WALL SLIDE: Only if falling AND pushing into the wall
-            if (rb.linearVelocity.y <= 0 && isPushingWall)
+            // WALL SLIDE: Trigger automatically when falling/touching wall
+            // We removed 'isPushingWall' here.
+            if (rb.linearVelocity.y <= 0.1f)
             {
                 actionCoordinator.TryStartAction(wallSlideAction);
             }
         }
+
+        // // 2. Check Wall Interactions
+        // else if (wallDetectionComponent.IsTouchingWall(flipSpriteComponent.FaceDirection))
+        // {
+        //     float horizontalInput = inputReader.GetHorizontalMoveInput();
+        //     bool isPushingWall = horizontalInput * flipSpriteComponent.FaceDirection > 0.1f;
+
+        //     // WALL JUMP: Only if the buffer is active (recent press)
+        //     if (_jumpBufferCounter > 0)
+        //     {
+        //         if (actionCoordinator.TryStartAction(wallJumpAction))
+        //         {
+        //             _jumpBufferCounter = 0; // Consume the buffer
+        //             return; // Exit so we don't slide on the same frame
+        //         }
+        //     }
+
+        //     // WALL SLIDE: Only if falling AND pushing into the wall
+        //     if (rb.linearVelocity.y <= 0 && isPushingWall)
+        //     {
+        //         actionCoordinator.TryStartAction(wallSlideAction);
+        //     }
+        // }
 
         HandleSpriteFlip();
         HandleSpriteDynamicStretch();

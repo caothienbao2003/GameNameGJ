@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FlipSprite : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Transform target;
 
     public float FaceDirection { get; private set; } = 1f;
 
@@ -14,7 +14,7 @@ public class FlipSprite : MonoBehaviour
 
         bool flip = moveDirection < 0;
         {
-            spriteRenderer.flipX = flip;
+            target.localScale = new Vector3(FaceDirection, target.localScale.y, target.localScale.z);
         }
     }
 

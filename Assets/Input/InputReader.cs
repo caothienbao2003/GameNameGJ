@@ -45,7 +45,8 @@ public class InputReader : MonoBehaviour, PlayerInputActions.IGameplayActions, I
         }
         else if (context.canceled)
         {
-            _horizontalMove = 0f;
+            Debug.Log("Horizontal move canceled");
+            _horizontalMove = 0;
             OnMoveEvent?.Invoke(_horizontalMove);
         }
     }

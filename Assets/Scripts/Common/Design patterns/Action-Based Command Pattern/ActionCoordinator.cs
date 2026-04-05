@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ActionCoordinatorComponent : MonoBehaviour
 {
     private readonly List<IAction> _activeActions = new();
+    [SerializeField] private TextMeshProUGUI debugText;
 
     public bool TryStartAction(IAction newAction)
     {
@@ -53,6 +55,7 @@ public class ActionCoordinatorComponent : MonoBehaviour
         for (int i = _activeActions.Count - 1; i >= 0; i--)
         {
             IAction action = _activeActions[i];
+            debugText.text = $"{action.GetType().Name}";
 
             // 1. Check if the action finished itself (e.g., reached the ground)
             if (action.IsFinished())

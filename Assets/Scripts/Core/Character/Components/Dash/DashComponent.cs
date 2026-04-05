@@ -7,7 +7,7 @@ public class DashComponent : MonoBehaviour, IDashComponent
     [SerializeField] private float dashForce = 20f;
     [SerializeField] private float dashDuration = 0.15f;
     [SerializeField] private float dashCooldown = 0.4f;
-    [SerializeField] private float postDashVelMul = 0.2f;
+    [SerializeField] private float postDashVelMul = 0.4f;
     private Rigidbody2D _rb;
     private bool _canDash = true;
 
